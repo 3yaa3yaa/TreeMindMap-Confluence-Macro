@@ -1,0 +1,38 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+
+    <xhtml-macro name="treemindmap-confluence-macro" class="EyaaEyaa.MindMapMacro" key="treemindmap-confluence-macro">
+        <category>visuals</category>
+        <parameters>
+            <parameter name="page" type="confluence-content" hidden="true"></parameter>
+            <parameter name="name" type="attachment" required="true"></parameter>
+        </parameters>
+    </xhtml-macro>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="TreeMindMap"/>
+    
+    <!-- add our web resources -->
+    <web-resource key="TreeMindMap-resources" name="TreeMindMap Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        
+        <resource type="download" name="TreeMindMap.css" location="/css/TreeMindMap.css"/>
+        <resource type="download" name="TreeMindMap.js" location="/js/TreeMindMap.js"/>
+        <resource type="download" name="images/" location="/images"/>
+
+        <context>TreeMindMap</context>
+    </web-resource>
+    <web-resource key="macro-browser-smart-fields" name="Macro Browser Smart Fields">
+        <context>macro-browser</context>
+        <dependency>confluence.editor.actions:editor-macro-browser</dependency>
+        <resource type="download" name="confluence-core-macro-fields.js" location="js/confluence-core-macro-fields.js" />
+    </web-resource>
+
+    
+</atlassian-plugin>

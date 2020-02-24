@@ -1,0 +1,18 @@
+
+#requireResource("EyaaEyaa.TreeMindMap:TreeMindMap-resources")
+
+<div>
+    <div id="${key}"></div>
+    <script type="text/javascript">
+        AJS.toInit(function () {
+            //Render Data
+            TreeMindMapLibrary.RenderReadOnly('${url}', '${key}');
+
+            ## //Resize the height
+            ## $(function(){
+            ##     var windowHeight = "0";
+            ##     var windowHeight = $("#${key}").find('.MainWindow-Content').height();
+            ##     $("#${key}").height(windowHeight);
+            })
+    </script>
+</div>

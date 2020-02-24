@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Plugin Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/META-INF/spring/plugin-context.xml</file>
+        </fileset>
+        <fileset id="fileset2" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/META-INF/spring/plugin-context.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/accessServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/applicationContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/applicationContextPluginProvided.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/atlassianUserContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/attachmentSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/avatarProviderContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/bandanaServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/baseServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/bootstrapContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/bootstrapHealthCheckContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/cacheServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/clusterServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/contentMigrationContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/contentNameSearchSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/contentServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/databaseSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/embeddedCrowdContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/eventServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/fileStoreSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/i18NContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/api/implementationContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/api/implementationContextPluginProvided.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/importedEmbeddedCrowdContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/importExportSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/indexingSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/jmxContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/johnsonContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/journalServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/labelServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/licenseServiceBootstrapContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/licenseServiceMainContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/licenseServiceSharedSetupAndMainContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/monitoringContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/permissionsServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/pluginServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/productionDatabaseContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/productionHealthCheckContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/renderingContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/rpcSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/sandboxServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/schedulingSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/schedulingSubsystemManagedContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/schedulingSubsystemUnmanagedContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/searchSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/securityContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/setupContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/statusServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/taskQueueServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/upgradeSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/services/userServiceContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/velocityContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/wikiFiltersSubsystemContext.xml</file>
+          <file>jar://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar!/wikiSubsystemContext.xml</file>
+          <file>file://$MAVEN_REPOSITORY$/com/atlassian/confluence/confluence/6.14.0/confluence-6.14.0.jar</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Spring-5.2.3.RELEASE" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.10" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.atlassian.confluence:confluence:7.3.0" level="project" />
+    <orderEntry type="library" name="Maven: com.atlassian.plugin:atlassian-spring-scanner-annotation:1.2.13" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.atlassian.plugin:atlassian-spring-scanner-runtime:1.2.13" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.atlassian.plugins:atlassian-plugins-osgi-testrunner:2.0.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.ws.rs:jsr311-api:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.2-atlassian-1" level="project" />
+  </component>
+</module>

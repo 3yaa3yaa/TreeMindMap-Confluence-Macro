@@ -1,0 +1,6 @@
+stale_outputs_checked
+.idea
+lib
+target
+src/main/nodejs/node_modules
+src/main/nodejs/package-lock.json
