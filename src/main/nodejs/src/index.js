@@ -5,7 +5,7 @@ const axios = require('axios');
 export function RenderReadOnly(url, domid)
 {
     let element = document.getElementById(domid);
-    element.innerHTML="Generating a Mind Map...";
+    element.innerHTML="Generating a Mind Map... :)";
 
     axios.get(url)
         .then(response => {
@@ -18,13 +18,24 @@ export function RenderReadOnly(url, domid)
                 }
                 readonly_data.property.isReadOnly=2;
                 readonly_data = JSON.stringify(readonly_data);
-                Render(readonly_data, (state)=>{return state}, domid, ReactDOM);
 
-                //Resize the height
-                $(function() {
-                    let windowHeight = $("#" + domid).find('.MainWindow-Content').height();
-                    $("#" + domid).height(windowHeight);
+
+                let promise = new Promise((resolve, reject) => { // #1
+                    Render(readonly_data, (state)=>{
+                        return state
+                    }, domid, ReactDOM);
+                    resolve();
+                });
+
+                promise.then(()=>{
+                    //Resize the height
+                    $(function() {
+                        let windowHeight = $("#" + domid).find('.MainWindow-Content').height();
+                        $("#" + domid).height(windowHeight);
+                    })
                 })
+
+
             } catch(e)
             {
                 let element = document.getElementById(domid);

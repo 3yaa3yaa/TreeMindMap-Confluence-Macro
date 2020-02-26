@@ -28,10 +28,20 @@
 
         <context>TreeMindMap</context>
     </web-resource>
+
     <web-resource key="macro-browser-smart-fields" name="Macro Browser Smart Fields">
         <context>macro-browser</context>
         <dependency>confluence.editor.actions:editor-macro-browser</dependency>
         <resource type="download" name="confluence-core-macro-fields.js" location="js/confluence-core-macro-fields.js" />
+    </web-resource>
+
+    <web-resource key="tinymce-treemindmap-resources" name="tinymce-treemindmap Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+
+        <resource type="download" name="tinymce-example.js" location="/js/TreeMindMap-Editor.js"/>
+        <resource type="download" name="images/" location="/images"/>
+
+        <context>editor</context>
     </web-resource>
 
     
