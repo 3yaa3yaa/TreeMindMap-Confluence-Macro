@@ -8,7 +8,7 @@ define('com/example/plugins', ['ajs', 'jquery'], function (AJS, $){
                 .addClass("rte-toolbar-group-example"));
 
             ed.addCommand('mceExample', function() {
-                TreeMindMapLibrary.RenderEditor(null, (state)=>{return state})
+                TreeMindMapLibrary.RenderEditor(ed)
 
             });
             // Register button in a new group
