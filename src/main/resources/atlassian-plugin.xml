@@ -37,6 +37,7 @@
 
     <web-resource key="tinymce-treemindmap-resources" name="tinymce-treemindmap Web Resources">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:aui-select</dependency>
 
         <resource type="download" name="TreeMindMap.js" location="/js/TreeMindMap.js"/>
         <resource type="download" name="tinymce-example.js" location="/js/TreeMindMap-Editor.js"/>

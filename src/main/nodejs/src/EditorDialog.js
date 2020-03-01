@@ -1,12 +1,14 @@
 const Render=require('treemindmap').Render;
 const axios = require('axios');
+const DataFetcher = require('./DataFetcher.js');
+const JoinPath = require('./JoinPath.js');
 
 module.exports = class EditorDialog {
     constructor(parentdom) {
         this.CONST_EDITOR_DIALOG = "treemindmap-editor";
         this.CONST_EDITOR_DIALOG_BODY = "treemindmap-editor-body";
         this.parentdom=parentdom;
-        this.filename = "treemindmap.tmm";
+        this.filename = "";
         this.data=[];
         this.ReactDOM = require('react-dom');
     }
@@ -16,20 +18,37 @@ module.exports = class EditorDialog {
         return this.filename + ".tmm";
     }
 
+    RetrieveExistingAttachments(){
+        let promise = new Promise((resolve, reject) => {
+            let contentid = AJS.Meta.get('content-id');
+            let baseurl = AJS.params.baseUrl;
+            let endpoint = JoinPath([baseurl, "/rest/api/content/", contentid,"/child/attachment"] );
+            axios.get(endpoint)
+                .then((response)=>{
+                    let results =response.data.results.map((item)=>{return item.title});
+                    let regexp = new RegExp('.*\.tmm$');
+                    resolve(results.filter(item=>regexp.test(item)));
+                }  )
+        });
+        return promise;
+    }
+
 
     Render()
     {
-        let promise = new Promise((resolve, reject) => {
-            this.RenderEditorDialog();
-            resolve();
-        });
+        let promise = this.RetrieveExistingAttachments();
 
-        promise.then(()=>{
+        promise
+        .then((filenames)=>
+        {
+            this.RenderEditorDialog(filenames);
+        })
+        .then(()=>{
             Render(null, (state) => {this.data=JSON.stringify(state)}, this.CONST_EDITOR_DIALOG_BODY, this.ReactDOM);
         })
-            .then(()=>{
-                AJS.dialog2("#demo-dialog").show();
-            })
+        .then(()=>{
+            AJS.dialog2("#demo-dialog").show();
+        })
     }
 
     RemoveEditorDialog() {
@@ -64,7 +83,47 @@ module.exports = class EditorDialog {
         return header;
     }
 
-    GetBody()
+    GetForm(existingFileNames)
+    {
+        let form = document.createElement('form');
+        form.className = "aui";
+        form.style.height="50px";
+
+        let paragraph = document.createElement('p');
+
+        let form_input = document.createElement('aui-select');
+        form_input.id="treemindmap-attachment-name";
+        form_input.addEventListener('change',(e)=>{
+            this.filename=form_input.value;
+            let contentid = AJS.Meta.get('content-id');
+            let datafetcher = new DataFetcher(contentid, this.filename);
+            datafetcher.RenderRetrievingFile(this.CONST_EDITOR_DIALOG_BODY, (state)=>{this.data=JSON.stringify(state)})
+        })
+
+        existingFileNames=existingFileNames.map(item=>{return item.replace(/\.tmm$/,"")});
+        existingFileNames.push("my-mind-map");
+        existingFileNames=existingFileNames.filter((x, i, self) => self.indexOf(x) === i);
+
+        let form_input_options = existingFileNames.map((item)=>{
+            let element = document.createElement('aui-option');
+            element.innerText=item;
+            return element;
+        });
+
+        let form_label = document.createElement('aui-label');
+        form_label.htmlFor=form_input.id;
+        form_label.innerText="Choose existing attachment or enter new one.";
+
+        form.appendChild(form_label);
+        form.appendChild(paragraph);
+        paragraph.appendChild(form_input);
+        form_input_options.forEach((item)=>{form_input.appendChild(item)});
+
+        return form;
+
+    }
+
+    GetBody(existingFileNames)
     {
         let body = document.createElement('div');
         body.className="aui-dialog2-content";
@@ -72,32 +131,11 @@ module.exports = class EditorDialog {
         body.style.maxHeight="100%";
 
 
-        let form = document.createElement('form');
-        form.className = "aui";
-        form.style.height="50px";
-
-        let fieldgroup_div = document.createElement('div');
-        fieldgroup_div.className="fieldgroup";
-
-        let form_text = document.createElement('input');
-        form_text.className="text";
-        form_text.id="treemindmap-attachment-name";
-        form_text.onchange=(e)=>{this.filename=form_text.value};
-
-        let form_label = document.createElement('label');
-        form_label.htmlFor=form_text.id;
-        form_label.innerText="Attachment Name ";
-
-
-        form.appendChild(fieldgroup_div);
-        fieldgroup_div.appendChild(form_label);
-        fieldgroup_div.appendChild(form_text);
-
         let div = document.createElement('div');
         div.id=this.CONST_EDITOR_DIALOG_BODY;
-        div.innerHTML="Generating a Mind Map Editor... :)";
+        div.innerText="Generating a Mind Map Editor... :)";
 
-        body.appendChild(form);
+        body.appendChild(this.GetForm(existingFileNames));
         body.appendChild(div);
 
         return body;
@@ -123,11 +161,10 @@ module.exports = class EditorDialog {
     }
 
 
-    RenderEditorDialog()
+    RenderEditorDialog(existingAttachments)
     {
         this.RemoveEditorDialog();
         let target = document.getElementById(this.parentdom);
-        let succeeding = document.getElementById(this.succeedingdom);
 
         let section = document.createElement('section');
         section.id=this.CONST_EDITOR_DIALOG;
@@ -140,7 +177,7 @@ module.exports = class EditorDialog {
 
         target.insertBefore(section,target.firstChild);
         section.appendChild(this.GetHeader());
-        section.appendChild(this.GetBody());
+        section.appendChild(this.GetBody(existingAttachments));
         section.appendChild(this.GetFooter());
 
     }
@@ -156,7 +193,7 @@ module.exports = class EditorDialog {
         {
             let contentid = AJS.Meta.get('content-id');
             let baseurl = AJS.params.baseUrl;
-            let endpoint = this.JoinPath([baseurl, "/rest/api/content/", contentid,"/child/attachment?allowDuplicated=true"] );
+            let endpoint = JoinPath([baseurl, "/rest/api/content/", contentid,"/child/attachment?allowDuplicated=true"] );
             console.log('posting to '+ endpoint);
 
             let file = new File([this.data], this.GetFileNameWithExtention(), {
@@ -169,7 +206,7 @@ module.exports = class EditorDialog {
                     console.log(response);
                     this.RemoveEditorDialog()})
                 .catch((error)=> {
-                        endpoint = this.JoinPath([baseurl, "/rest/api/content/", contentid, "/child/attachment?status=draft&allowDuplicated=true"]);
+                        endpoint = JoinPath([baseurl, "/rest/api/content/", contentid, "/child/attachment?status=draft&allowDuplicated=true"]);
                         axios.post(endpoint, params, {headers: {'X-Atlassian-Token': 'nocheck'}})
                             .then((response) => {
                                 console.log(response);
@@ -183,13 +220,6 @@ module.exports = class EditorDialog {
 
         }
 
-    }
-
-    JoinPath(parts, sep){
-        let regexp =  new RegExp('(^/|/$)','g');
-        return parts
-            .map(item=>item.replace(regexp,''))
-            .reduce((acc,cur)=>acc+"/"+cur);
     }
 
 }
