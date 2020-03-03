@@ -1,21 +1,28 @@
-const Render=require('treemindmap').Render;
 const axios = require('axios');
-const DataFetcher = require('./DataFetcher.js');
+const DataRenderer = require('./DataRenderer.js');
 const JoinPath = require('./JoinPath.js');
 
 module.exports = class EditorDialog {
     constructor(parentdom) {
         this.CONST_EDITOR_DIALOG = "treemindmap-editor";
         this.CONST_EDITOR_DIALOG_BODY = "treemindmap-editor-body";
+        this.CONST_FORM = "treemindmap-attachment-name-form";
+        this.CONST_FORM_FILENAME = "treemindmap-attachment-name";
         this.parentdom=parentdom;
         this.filename = "";
         this.data=[];
-        this.ReactDOM = require('react-dom');
     }
 
     GetFileNameWithExtention()
     {
-        return this.filename + ".tmm";
+        return this.GetSpecifiedFileName() + ".tmm";
+    }
+
+    GetSpecifiedFileName()
+    {
+        let element = document.getElementById(this.CONST_FORM_FILENAME+ "-input");
+        return element.value.replace(/^\//,"");
+
     }
 
     RetrieveExistingAttachments(){
@@ -44,7 +51,8 @@ module.exports = class EditorDialog {
             this.RenderEditorDialog(filenames);
         })
         .then(()=>{
-            Render(null, (state) => {this.data=JSON.stringify(state)}, this.CONST_EDITOR_DIALOG_BODY, this.ReactDOM);
+            let dataRenderer = new DataRenderer();
+            dataRenderer.RenderSkeleton((state) => {this.data=JSON.stringify(state)}, this.CONST_EDITOR_DIALOG_BODY);
         })
         .then(()=>{
             AJS.dialog2("#demo-dialog").show();
@@ -55,6 +63,7 @@ module.exports = class EditorDialog {
         let dialog = document.getElementById(this.CONST_EDITOR_DIALOG);
         if(dialog!=null)
         {
+            dialog.innerHTML="";
             dialog.remove();
         }
     }
@@ -92,12 +101,11 @@ module.exports = class EditorDialog {
         let paragraph = document.createElement('p');
 
         let form_input = document.createElement('aui-select');
-        form_input.id="treemindmap-attachment-name";
+        form_input.id=this.CONST_FORM_FILENAME;
         form_input.addEventListener('change',(e)=>{
-            this.filename=form_input.value;
             let contentid = AJS.Meta.get('content-id');
-            let datafetcher = new DataFetcher(contentid, this.filename);
-            datafetcher.RenderRetrievingFile(this.CONST_EDITOR_DIALOG_BODY, (state)=>{this.data=JSON.stringify(state)})
+            let dataRenderer = new DataRenderer(contentid, this.GetFileNameWithExtention());
+            dataRenderer.RenderRetrievingFile(this.CONST_EDITOR_DIALOG_BODY, (state)=>{this.data=JSON.stringify(state)})
         })
 
         existingFileNames=existingFileNames.map(item=>{return item.replace(/\.tmm$/,"")});
@@ -133,7 +141,7 @@ module.exports = class EditorDialog {
 
         let div = document.createElement('div');
         div.id=this.CONST_EDITOR_DIALOG_BODY;
-        div.innerText="Generating a Mind Map Editor... :)";
+        div.innerHTML="Generating a Mind Map Editor... :)";
 
         body.appendChild(this.GetForm(existingFileNames));
         body.appendChild(div);
@@ -155,7 +163,7 @@ module.exports = class EditorDialog {
         submit_button.innerText="Save";
         submit_button_div.appendChild(submit_button);
         footer.appendChild(submit_button_div);
-        submit_button.onclick=(e)=>{e.preventDefault(); this.InsertAttachment(this.filename, this.data)};
+        submit_button.onclick=(e)=>{e.preventDefault(); this.InsertAttachment()};
 
         return footer;
     }
@@ -182,10 +190,23 @@ module.exports = class EditorDialog {
 
     }
 
+    InsertMacro()
+    {
+        let currentParams={};
+        currentParams[name]=this.GetFileNameWithExtention();
+        let macroRenderRequest = {
+            contentId:  AJS.Meta.get('content-id'),
+            macro: {
+                name: "treemindmap-confluence-macro",
+                params: currentParams,
+                body : ""
+            }
+        };
+        tinymce.confluence.MacroUtils.insertMacro(macroRenderRequest);
+    }
 
-    InsertAttachment(filename, data){
-
-        if(this.filename==="")
+    InsertAttachment(){
+        if(this.GetFileNameWithExtention()===".tmm")
         {
             alert("Please specify the name of this Mind Map");
         }
@@ -208,8 +229,10 @@ module.exports = class EditorDialog {
                 .catch((error)=> {
                         endpoint = JoinPath([baseurl, "/rest/api/content/", contentid, "/child/attachment?status=draft&allowDuplicated=true"]);
                         axios.post(endpoint, params, {headers: {'X-Atlassian-Token': 'nocheck'}})
+                            .then((response)=>{
+                                this.InsertMacro();
+                            })
                             .then((response) => {
-                                console.log(response);
                                 this.RemoveEditorDialog()
                             })
                             .catch((error) => {

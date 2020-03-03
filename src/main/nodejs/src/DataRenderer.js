@@ -1,9 +1,9 @@
 const axios = require('axios');
-const ReactDOM = require('react-dom');
 const JoinPath = require('./JoinPath.js');
 const Render=require('treemindmap').Render;
+const ReactDOM = require('react-dom');
 
-module.exports=class DataFetcher {
+module.exports=class DataRenderer {
     constructor(contentid, filename) {
         this.contentid=contentid;
         this.filename=filename;
@@ -12,15 +12,14 @@ module.exports=class DataFetcher {
     RetrieveDownloadURL()
     {
         let baseurl = AJS.params.baseUrl;
-        let endpoint = JoinPath([baseurl, "/rest/api/content/", this.contentid,"/child/attachment?filename=",this.filename] );
+        let endpoint = JoinPath([baseurl, "/rest/api/content/", this.contentid,"/child/attachment?filename=" + this.filename] );
 
-        let promise = new Promise(resolve, reject => {
+        let promise = new Promise((resolve, reject) => {
             axios.get(endpoint)
                 .then((response)=>{
                     if(response.data.results.length>0)
                     {
-                        console.log(JSON.stringify(response.data));
-                        resolve(response.data.results[0]._links.download);
+                        resolve(JoinPath([baseurl,response.data.results[0]._links.download]) );
                     }
                     else
                     {
@@ -31,6 +30,11 @@ module.exports=class DataFetcher {
         return promise;
     }
 
+    RenderSkeleton(callback, domid)
+    {
+        Render(null, callback, domid, ReactDOM);
+    }
+
     RenderRetrievingFile(domid, callback)
     {
         this.RetrieveDownloadURL()
@@ -38,6 +42,7 @@ module.exports=class DataFetcher {
             {
                 let setEditor = (data)=>{
                     data.property.isReadOnly=0;
+                    data.property.previewMode=0;
                 };
                 this.RenderFromURL(downloadlink, domid, setEditor, callback );
             })
@@ -63,21 +68,37 @@ module.exports=class DataFetcher {
                     {
                         preprocessing(response_data)
                     }
-                    response_data = JSON.stringify(response_data);
-                    let promise = new Promise((resolve, reject) => {
-                        Render(response_data, (state)=>{
-                            callback(state)
-                        }, domid, ReactDOM);
-                        resolve();
-                    });
 
-                    promise.then(()=>{
+                    let promise = new Promise((resolve => {
+                        let elid = "treemindmap-editor-body-div";
+                        let editordiv = document.getElementById(elid);
+                        if(editordiv!=null)
+                        {
+                            editordiv.remove();
+                        }
+
+                        let element = document.createElement('div');
+                        element.id=elid;
+                        let parent = document.getElementById(domid);
+                        parent.appendChild(element);
+                        resolve(element.id);
+                    }))
+
+                    promise
+                        .then((id)=> {
+                            response_data = JSON.stringify(response_data);
+                            console.log("Rendering data in " + id);
+                            Render(response_data, callback, id, ReactDOM);
+                            }
+                        )
+                        .then(()=>{
                         //Resize the height
-                        $(function() {
-                            let windowHeight = $("#" + domid).find('.MainWindow-Content').height();
-                            $("#" + domid).height(windowHeight);
+                        AJS.$(function() {
+                            let windowHeight = AJS.$("#" + domid).find('.MainWindow-Content').height();
+                            AJS.$("#" + domid).height(windowHeight);
                         })
                     })
+                        .catch((error)=>{console.error(error)})
 
 
                 } catch(e)
