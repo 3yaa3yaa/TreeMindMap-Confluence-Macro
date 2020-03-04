@@ -1,12 +1,32 @@
 const axios = require('axios');
 const JoinPath = require('./JoinPath.js');
 const Render=require('treemindmap').Render;
-const ReactDOM = require('react-dom');
 
 module.exports=class DataRenderer {
     constructor(contentid, filename) {
         this.contentid=contentid;
         this.filename=filename;
+    }
+
+    Render(data, callback, domid)
+    {
+        let promise = new Promise((resolve => {
+            let dialog = document.getElementById(domid);
+            if(dialog!=null)
+            {
+                while(dialog.lastChild){
+                    dialog.removeChild(dialog.lastChild);
+                }
+            }
+            let element = document.createElement('div');
+            element.id = domid + "-data";
+            dialog.appendChild(element);
+            resolve(element.id);
+        }));
+        promise.then((id)=>{
+            const ReactDOM = require('react-dom');
+            Render(data, callback, id, ReactDOM);
+        })
     }
 
     RetrieveDownloadURL()
@@ -32,7 +52,7 @@ module.exports=class DataRenderer {
 
     RenderSkeleton(callback, domid)
     {
-        Render(null, callback, domid, ReactDOM);
+        this.Render(null, callback, domid);
     }
 
     RenderRetrievingFile(domid, callback)
@@ -70,36 +90,21 @@ module.exports=class DataRenderer {
                     }
 
                     let promise = new Promise((resolve => {
-                        let elid = "treemindmap-editor-body-div";
-                        let editordiv = document.getElementById(elid);
-                        if(editordiv!=null)
-                        {
-                            editordiv.remove();
-                        }
-
-                        let element = document.createElement('div');
-                        element.id=elid;
-                        let parent = document.getElementById(domid);
-                        parent.appendChild(element);
-                        resolve(element.id);
+                        response_data = JSON.stringify(response_data);
+                        console.log("Rendering data in " + domid);
+                        this.Render(response_data, callback, domid);
+                        resolve();
                     }))
 
                     promise
-                        .then((id)=> {
-                            response_data = JSON.stringify(response_data);
-                            console.log("Rendering data in " + id);
-                            Render(response_data, callback, id, ReactDOM);
-                            }
-                        )
                         .then(()=>{
                         //Resize the height
                         AJS.$(function() {
                             let windowHeight = AJS.$("#" + domid).find('.MainWindow-Content').height();
                             AJS.$("#" + domid).height(windowHeight);
                         })
-                    })
+                        })
                         .catch((error)=>{console.error(error)})
-
 
                 } catch(e)
                 {

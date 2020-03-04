@@ -13,6 +13,18 @@ module.exports = class EditorDialog {
         this.data=[];
     }
 
+    IsFileSpecified()
+    {
+        if(this.GetSpecifiedFileName()==="")
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     GetFileNameWithExtention()
     {
         return this.GetSpecifiedFileName() + ".tmm";
@@ -63,7 +75,9 @@ module.exports = class EditorDialog {
         let dialog = document.getElementById(this.CONST_EDITOR_DIALOG);
         if(dialog!=null)
         {
-            dialog.innerHTML="";
+            while(dialog.lastChild){
+                dialog.removeChild(dialog.lastChild);
+            }
             dialog.remove();
         }
     }
@@ -171,7 +185,6 @@ module.exports = class EditorDialog {
 
     RenderEditorDialog(existingAttachments)
     {
-        this.RemoveEditorDialog();
         let target = document.getElementById(this.parentdom);
 
         let section = document.createElement('section');
@@ -193,7 +206,9 @@ module.exports = class EditorDialog {
     InsertMacro()
     {
         let currentParams={};
-        currentParams[name]=this.GetFileNameWithExtention();
+        currentParams.name=this.GetFileNameWithExtention();
+        currentParams.page=AJS.Meta.get('content-id');
+
         let macroRenderRequest = {
             contentId:  AJS.Meta.get('content-id'),
             macro: {
@@ -206,7 +221,7 @@ module.exports = class EditorDialog {
     }
 
     InsertAttachment(){
-        if(this.GetFileNameWithExtention()===".tmm")
+        if(!this.IsFileSpecified())
         {
             alert("Please specify the name of this Mind Map");
         }
@@ -225,7 +240,11 @@ module.exports = class EditorDialog {
             axios.post(endpoint, params, {headers: {'X-Atlassian-Token': 'nocheck'}})
                 .then((response)=>{
                     console.log(response);
-                    this.RemoveEditorDialog()})
+                    this.InsertMacro();
+                    })
+                .then(()=>{
+                    this.RemoveEditorDialog();
+                })
                 .catch((error)=> {
                         endpoint = JoinPath([baseurl, "/rest/api/content/", contentid, "/child/attachment?status=draft&allowDuplicated=true"]);
                         axios.post(endpoint, params, {headers: {'X-Atlassian-Token': 'nocheck'}})
