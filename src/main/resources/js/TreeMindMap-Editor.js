@@ -8,7 +8,8 @@ define('com/example/plugins', ['ajs', 'jquery'], function (AJS, $){
                 .addClass("rte-toolbar-group-example"));
 
             ed.addCommand('mceExample', function() {
-                alert('button pressed');
+                TreeMindMapLibrary.RenderEditor(ed)
+
             });
             // Register button in a new group
             ed.addButton('confluence-example-button', {

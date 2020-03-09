@@ -1,4 +1,4 @@
-package EyaaEyaa;
+package net.atlassian.nobuyuki;
 
 import com.atlassian.confluence.content.render.xhtml.ConversionContext;
 import com.atlassian.confluence.content.render.xhtml.XhtmlException;
@@ -71,7 +71,8 @@ public class MindMapMacro implements Macro{
 
         for (Attachment attachment :conversionContext.getPageContext().getEntity().getAttachments())
         {
-            if(attachment.getFileName().equals(attachmentName))
+            System.out.println("Getting attahchment: "+ attachment.getFileName() + " comparing with " + attachmentName );
+            if((attachment.getFileName()).equals(attachmentName) && attachment.isLatestVersion())
             {
                 return this.BuildPath(baseUrl,attachment.getDownloadPath());
             }
