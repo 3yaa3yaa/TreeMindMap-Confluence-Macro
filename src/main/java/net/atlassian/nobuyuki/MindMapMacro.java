@@ -1,4 +1,4 @@
-package EyaaEyaa;
+package net.atlassian.nobuyuki;
 
 import com.atlassian.confluence.content.render.xhtml.ConversionContext;
 import com.atlassian.confluence.content.render.xhtml.XhtmlException;

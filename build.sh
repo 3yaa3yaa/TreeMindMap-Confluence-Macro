@@ -1,5 +1,5 @@
 cd src/main/nodejs
-npm run build
+yarn run build
 cd ../../../
 atlas-clean
 atlas-run

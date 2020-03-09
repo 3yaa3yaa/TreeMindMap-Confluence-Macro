@@ -7,7 +7,7 @@
         <param name="plugin-logo">images/pluginLogo.png</param>
     </plugin-info>
 
-    <xhtml-macro name="treemindmap-confluence-macro" class="EyaaEyaa.MindMapMacro" key="treemindmap-confluence-macro">
+    <xhtml-macro name="treemindmap-confluence-macro" class="net.atlassian.nobuyuki.MindMapMacro" key="treemindmap-confluence-macro">
         <category>visuals</category>
         <parameters>
             <parameter name="page" type="confluence-content" hidden="true"></parameter>
