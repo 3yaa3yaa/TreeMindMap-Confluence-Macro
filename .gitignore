@@ -4,3 +4,4 @@ lib
 target
 src/main/nodejs/node_modules
 src/main/nodejs/package-lock.json
+src/main/nodejs/yarn.lock
